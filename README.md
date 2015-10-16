@@ -4,6 +4,18 @@ pynigma is a simple Python client for the [Enigma API](https://app.enigma.io/api
 
 [![Code Climate](https://codeclimate.com/github/thejunglejane/pynigma/badges/gpa.svg)](https://codeclimate.com/github/thejunglejane/pynigma)
 
++ [Installation](#installation)
++ [Setup](#setup)
+    + [Tests](#tests)
++ [Usage](#usage)
+    + [Parameters](#parameters)
++ [Endponts](#endpoints)
+    + [Data](#data-endpoint)
+    + [Metadata](#metadata-endpoint)
+    + [Stats](#stats-endpoint)
+    + [Export](#export-endpoint)
+    + [Limits](#limits-endpoint)
+
 # Installation
 
 To install pynigma, clone this repository and run the setup script.
@@ -32,6 +44,11 @@ $ export ENIGMA_API_KEY='<YOUR API KEY HERE>'
 ```
 This variable will not be available in later sessions.
 
+pynigma uses `unittest`. To run the tests
+```bash
+$ python -m unittest discovery tests/
+```
+
 # Usage
 
 ```python
@@ -59,7 +76,7 @@ Check the official [API documentation](https://app.enigma.io/api) for valid para
 
 Each API endpoint is accessed in pretty much the same way. All you need to provide are a datapath (if applicable) and any query parameters.
 
-## Data Endpoint
+### Data Endpoint
 
 The [data endpoint](https://app.enigma.io/api#data) provides the actual data associated with table datapaths. The data endpoint is accessed via the `get_data()` method.
 
@@ -76,7 +93,7 @@ data = api.get_data(datapath='us.gov.whitehouse.salaries.2011')
 
 data['result'][0]  # the first salary in the dataset
 ```
-## Metadata Endpoint
+### Metadata Endpoint
 
 The [metadata endpoint](https://app.enigma.io/api#metadata) provides the metadata associated with table datapaths. The metadata endpoint is accessed via the `get_metadata()` method.
 
@@ -96,7 +113,7 @@ for column in metadata['result']['columns']:
     print column['label']
 ```
 
-## Stats Endpoint
+### Stats Endpoint
 
 The [stats endpoint](https://app.enigma.io/api#stats) provides statistics on columns within table datapaths. The stats endpoint is accessed via the `get_stats()` method.
 
