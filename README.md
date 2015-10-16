@@ -18,7 +18,12 @@ pynigma is a simple Python client for the [Enigma API](https://app.enigma.io/api
 
 # Installation
 
-To install pynigma, clone this repository and run the setup script.
+pynigma can be installed using pip
+```bash
+$ pip install pynigma
+```
+
+Or, you can clone this repository and run the setup script
 ```bash
 $ git clone git@github.com:thejunglejane/pynigma.git
 $ cd pynigma
