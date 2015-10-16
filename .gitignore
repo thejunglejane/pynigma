@@ -1,0 +1,6 @@
+.env
+*.pyc
+
+build/*
+dist/*
+pynigma.egg-info/*
