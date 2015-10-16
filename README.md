@@ -2,6 +2,8 @@
 
 pynigma is a simple Python client for the [Enigma API](https://app.enigma.io/api).
 
+[![Code Climate](https://codeclimate.com/github/thejunglejane/pynigma/badges/gpa.svg)](https://codeclimate.com/github/thejunglejane/pynigma)
+
 # Installation
 
 To install pynigma, clone this repository and run the setup script.
