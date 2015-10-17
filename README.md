@@ -57,13 +57,14 @@ $ python -m unittest discovery tests/
 # Usage
 
 ```python
+import os
 from pynigma import client
 
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
 # Create a new instance of the EnigmaAPI class
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 ```
 
 ### Parameters
@@ -86,12 +87,13 @@ Each API endpoint is accessed in pretty much the same way. All you need to provi
 The [data endpoint](https://app.enigma.io/api#data) provides the actual data associated with table datapaths. The data endpoint is accessed via the `get_data()` method.
 
 ```python
+import os
 from pynigma import client
 
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get the data on White House salaries in 2011
 data = api.get_data(datapath='us.gov.whitehouse.salaries.2011')
@@ -103,12 +105,13 @@ data['result'][0]  # the first salary in the dataset
 The [metadata endpoint](https://app.enigma.io/api#metadata) provides the metadata associated with table datapaths. The metadata endpoint is accessed via the `get_metadata()` method.
 
 ```python
+import os
 from pynigma import client
 
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get the metadata associated with the White House visitors dataset
 metadata = api.get_metadata(datapath='us.gov.whitehouse.visitor-list')
@@ -123,12 +126,13 @@ for column in metadata['result']['columns']:
 The [stats endpoint](https://app.enigma.io/api#stats) provides statistics on columns within table datapaths. The stats endpoint is accessed via the `get_stats()` method.
 
 ```python
+import os
 from pynigma import client
 
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get statistics for the type_of_access column in the White House visitors
 # dataset
@@ -144,12 +148,13 @@ for type in stats['result']['frequency']:
 The [export endpoint](https://app.enigma.io/export) provides URLs to gzipped CSV files of table datapaths. The export endpoint is accessed via the `get_export()` method.
 
 ```python
+import os
 from pynigma import client
 
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get URL for a gzipped CSV of the White House visitors dataset
 export = api.get_export(datapath='us.gov.whitehouse.visitor-list')
@@ -162,12 +167,13 @@ print export['head_url']  # print the URL
 The [limits endpoint](https://app.enigma.io/limits) provides current limits for the API key provided.
 
 ```python
+import os
 from pynigma import client
 
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get limits for ENIGMA_API_KEY
 limits = api.get_limits()
