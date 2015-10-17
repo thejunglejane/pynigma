@@ -1,8 +1,33 @@
+from datetime import date, datetime
+import decimal
 import requests
 import warnings
 
 API_ENDPOINT = 'https://api.enigma.io'
 API_VERSION = 'v2'
+
+
+# Data type mappings are based on PL/Python PostgreSQL to Python mappings
+# http://www.postgresql.org/docs/9.4/static/plpython-data.html
+_data_type_mapping = {
+    'bigint': long,
+    'boolean': bool,
+    'bytea': str,
+    'character varying': str,
+    'date': date,
+    'double': float,
+    'double precision': float,
+    'int': int,
+    'integer': int,
+    'numeric': decimal.Decimal,
+    'oid': long,
+    'real': float,
+    'smallint': int,
+    'text': str,
+    'timestamp without time zone': datetime,
+    'timestamp': datetime,
+    'varcahr': str
+}
 
 
 class EnigmaAPI(object):
@@ -96,6 +121,9 @@ class EnigmaAPI(object):
 
     def get_metadata(self, datapath, **kwargs):
         '''Returns an HTTP response from the metadata endpoint as decoded JSON.
+        The column metadata will include an additional key, 'python_type',
+        representing the corresponding Python data type. If the Python data
+        type can't be determined, it will default to str.
 
         ARGUMENTS
         ---------
@@ -115,7 +143,13 @@ class EnigmaAPI(object):
         Full Name
         Appointment Number
         '''
-        return self._request(resource='meta', datapath=datapath, **kwargs)
+        metadata_res =  self._request(
+            resource='meta', datapath=datapath, **kwargs)
+        # Map returned type strings to Python data types
+        for column in metadata_res['result']['columns']:
+            column['python_type'] = _data_type_mapping.get(
+                column['type'].split('_')[1], str)
+        return metadata_res
 
     def get_stats(self, datapath, **kwargs):
         '''Returns an HTTP response from the stats endpoint as decoded JSON.
