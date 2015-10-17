@@ -51,7 +51,7 @@ This variable will not be available in later sessions.
 
 pynigma uses `unittest`. To run the tests
 ```bash
-$ python -m unittest discovery tests/
+$ python -m unittest discover tests/
 ```
 
 # Usage
@@ -120,6 +120,8 @@ metadata = api.get_metadata(datapath='us.gov.whitehouse.visitor-list')
 for column in metadata['result']['columns']:
     print column['label']
 ```
+
+The column metadata returned by pynigma will include an additional key not returned by the endpoint, 'python_type', representing the Python data type that corresponds to the type string returned. Mappings are based on the [PL/Python PostgreSQL to Python mappings](http://www.postgresql.org/docs/9.4/static/plpython-data.html). If pynigma cannot determine the Python data type using these mappings, it will default to `str`, which is consistent with PL/Python.
 
 ### Stats Endpoint
 

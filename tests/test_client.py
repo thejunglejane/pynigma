@@ -1,4 +1,5 @@
 from pynigma import client
+import decimal
 import unittest
 import os
 
@@ -101,6 +102,24 @@ class TestClient(unittest.TestCase):
         '''
         with self.assertRaises(TypeError):
             self.new_client.get_metadata()
+
+    def test_get_metadata_python_data_type(self):
+        '''Does get_metadata() return a dictionary key corresponding to the
+        Python data type of a column?
+        '''
+        metadata = self.new_client.get_metadata(
+            datapath='us.gov.whitehouse.visitor-list')
+        self.assertIsNotNone(
+            metadata['result']['columns'][0].get('python_type'))
+
+    def test_get_metadata_correct_python_data_type(self):
+        '''Does get_metadata() return the correct Python data type for the type
+        string returned?
+        '''
+        metadata = self.new_client.get_metadata(
+            datapath='us.gov.whitehouse.salaries.2011')
+        self.assertEquals(
+            metadata['result']['columns'][2]['python_type'], decimal.Decimal)
 
     def test_get_stats_no_datapath_failure(self):
         '''Does get_stats() raise a TypeError when no datapath is passed?
