@@ -63,7 +63,7 @@ from pynigma import client
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
 # Create a new instance of the EnigmaAPI class
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 ```
 
 ### Parameters
@@ -91,7 +91,7 @@ from pynigma import client
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get the data on White House salaries in 2011
 data = api.get_data(datapath='us.gov.whitehouse.salaries.2011')
@@ -108,7 +108,7 @@ from pynigma import client
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get the metadata associated with the White House visitors dataset
 metadata = api.get_metadata(datapath='us.gov.whitehouse.visitor-list')
@@ -128,7 +128,7 @@ from pynigma import client
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get statistics for the type_of_access column in the White House visitors
 # dataset
@@ -149,7 +149,7 @@ from pynigma import client
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get URL for a gzipped CSV of the White House visitors dataset
 export = api.get_export(datapath='us.gov.whitehouse.visitor-list')
@@ -167,7 +167,7 @@ from pynigma import client
 # Load the ENIGMA_API_KEY environment variable
 ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
 
-api = client.EnigmaApi(client_key=ENIGMA_API_KEY)
+api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 # Get limits for ENIGMA_API_KEY
 limits = api.get_limits()
