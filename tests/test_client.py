@@ -27,7 +27,7 @@ class TestClient(unittest.TestCase):
                 resource='data', **{'search': '', 'limit': ''}))
 
     def test_check_query_params_invalid_param(self):
-        '''Does _check_query_params() raise a ValueError for am invalid
+        '''Does _check_query_params() raise a ValueError for an invalid
         parameter?
         '''
         with self.assertRaises(ValueError):
