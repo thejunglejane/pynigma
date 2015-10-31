@@ -1,13 +1,15 @@
 from pynigma import client
 import decimal
+import random
+import string
 import unittest
-import os
 
 
 class TestClient(unittest.TestCase):
 
     def setUp(self):
-        self.new_client = client.EnigmaAPI(os.environ['ENIGMA_API_KEY'])
+        self.new_client = client.EnigmaAPI(
+            ''.join(random.choice(string.ascii_lowercase) for _ in range(32)))
 
     def tearDown(self):
         del self.new_client
