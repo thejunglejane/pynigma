@@ -43,12 +43,6 @@ You will need to source the .env file for the `ENIGMA_API_KEY` environment varia
 
 ### Tests
 
-The [tests](https://www.github.com/thejunglejane/pynigma/tests) for pynigma expect an environment variable named `ENIGMA_API_KEY` to be present. If you don't intend to use an `ENIGMA_API_KEY` environment variable when using pynigma, but would like to run the tests, you can create the environment variable in your current session to enable the tests.
-```bash
-$ export ENIGMA_API_KEY='<YOUR API KEY HERE>'
-```
-This variable will not be available in later sessions.
-
 pynigma uses `unittest`. To run the tests
 ```bash
 $ python -m unittest discover tests/
