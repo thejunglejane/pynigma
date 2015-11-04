@@ -9,7 +9,7 @@ API_VERSION = 'v2'
 
 # Data type mappings are based on PL/Python PostgreSQL to Python mappings
 # http://www.postgresql.org/docs/9.4/static/plpython-data.html
-_data_type_mapping = {
+_data_type_codec = {
     'bigint': long,
     'boolean': bool,
     'bytea': str,
@@ -28,6 +28,18 @@ _data_type_mapping = {
     'timestamp': datetime,
     'varcahr': str
 }
+
+
+def _map_metadata_data_type(metadata_columns):
+    '''Return the column data from the MetaData endpoint with corresponding 
+    Python data types included. Even though this is used in only one place, it 
+    has been separated out to facilitate testing.
+    '''
+    for column in metadata_columns:
+        # Data types returned by the MetaData endpoint are prefixed with type_
+        column['python_type'] = _data_type_codec.get(
+            ' '.join(column['type'].split('_')[1:]), str)
+    return metadata_columns
 
 
 class EnigmaAPI(object):
@@ -68,7 +80,7 @@ class EnigmaAPI(object):
 
     def __repr__(self):
         return '<EnigmaAPI(endpoint={endpoint}, version={version})>'.format(
-            endpoint=self.endpoint, version=self.version)
+            endpoint=self._endpoint, version=self._version)
 
     def _check_query_params(self, resource, **kwargs):
         invalid_params = set(
@@ -143,12 +155,10 @@ class EnigmaAPI(object):
         Full Name
         Appointment Number
         '''
-        metadata_res =  self._request(
+        metadata_res = self._request(
             resource='meta', datapath=datapath, **kwargs)
-        # Map returned type strings to Python data types
-        for column in metadata_res['result']['columns']:
-            column['python_type'] = _data_type_mapping.get(
-                column['type'].split('_')[1], str)
+        metadata_res['result']['columns'] = _map_metadata_data_type(
+            metadata_res['result']['columns'])
         return metadata_res
 
     def get_stats(self, datapath, **kwargs):
