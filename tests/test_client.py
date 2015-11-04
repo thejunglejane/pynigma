@@ -121,19 +121,25 @@ class TestClient(unittest.TestCase):
         '''Does _map_metadata_data_type() return a dictionary key corresponding
         to the Python data type of a column?
         '''
-        metadata = self.new_client.get_metadata(
-            datapath='us.gov.whitehouse.visitor-list')
+        test_col = [{'id': 'test', 'type': 'type_str'}]
         self.assertIsNotNone(
-            metadata['result']['columns'][0].get('python_type'))
+            client._map_metadata_data_type(test_col)[0].get('python_type'))
 
-    def test_get_metadata_correct_python_data_type(self):
-        '''Does get_metadata() return the correct Python data type for the type
-        string returned?
+    def test_map_metadata_data_type_correct_python_data_type(self):
+        '''Does _map_metadata_data_type() return the correct Python data type
+        for the type string returned?
         '''
-        metadata = self.new_client.get_metadata(
-            datapath='us.gov.whitehouse.salaries.2011')
+        test_col = [{'id': 'test', 'type': 'type_numeric'}]
         self.assertEquals(
-            metadata['result']['columns'][2]['python_type'], decimal.Decimal)
+            client._map_metadata_data_type(
+                test_col)[0]['python_type'], decimal.Decimal)
+
+    def test_map_metadata_data_type_unknown_python_data_type(self):
+        '''Does _map_metadata_data_type() return str for an unknown data type?
+        '''
+        test_col = [{'id': 'test', 'type': 'type_unknown'}]
+        self.assertEquals(
+            client._map_metadata_data_type(test_col)[0]['python_type'], str)
 
     def test_get_stats_no_datapath_failure(self):
         '''Does get_stats() raise a TypeError when no datapath is passed?
