@@ -1,5 +1,6 @@
 from pynigma import client
 import decimal
+import mock
 import random
 import string
 import unittest
@@ -73,19 +74,6 @@ class TestClient(unittest.TestCase):
                 resource='stats', datapath='us.gov.whitehouse.salaries.2011', **{'invalid': ''})
         self.assertIsNone(self.new_client.request_url)
 
-    def test_request_success(self):
-        '''Does _request() return decoded JSON when the request is valid?
-        '''
-        self.assertIsInstance(self.new_client.get_data(
-            datapath='us.gov.whitehouse.salaries.2011'), dict)
-
-    def test_request_success_keys(self):
-        '''Does _request() return decoded JSON with the expected keys when the
-        request is valid?
-        '''
-        self.assertEquals(self.new_client.get_data(
-            datapath='us.gov.whitehouse.salaries.2011').keys(), ['info', 'datapath', 'success', 'result'])
-
     def test_get_limits_datapath_failure(self):
         '''Does get_limits() raise a TypeError when a datapath is passed?
         '''
@@ -93,11 +81,27 @@ class TestClient(unittest.TestCase):
             self.new_client.get_limits(
                 datapath='us.gov.whitehouse.salaries.2011')
 
+    @mock.patch.object(client.EnigmaAPI, '_request', autospec=True)
+    def test_get_limits(self, mock_method):
+        '''Does get_limits() call _request with resource='limits'?
+        '''
+        self.new_client.get_limits()
+        mock_method.assert_called_with(
+            self.new_client, datapath=None, resource='limits')
+
     def test_get_data_no_datapath_failure(self):
         '''Does get_data() raise a TypeError when no datapath is passed?
         '''
         with self.assertRaises(TypeError):
             self.new_client.get_data()
+
+    @mock.patch.object(client.EnigmaAPI, '_request', autospec=True)
+    def test_get_data(self, mock_method):
+        '''Does get_data() call _request with resource='data'?
+        '''
+        self.new_client.get_data(datapath='us.gov.whitehouse.salaries.2011')
+        mock_method.assert_called_with(
+            self.new_client, datapath='us.gov.whitehouse.salaries.2011', resource='data')
 
     def test_get_metadata_no_datapath_failure(self):
         '''Does get_metadata() raise a TypeError when no datapath is passed?
@@ -105,9 +109,17 @@ class TestClient(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.new_client.get_metadata()
 
-    def test_get_metadata_python_data_type(self):
-        '''Does get_metadata() return a dictionary key corresponding to the
-        Python data type of a column?
+    @mock.patch.object(client.EnigmaAPI, '_request', autospec=True)
+    def test_get_metadata(self, mock_method):
+        '''Does get_metadata() call _request with resource='metadata'?
+        '''
+        self.new_client.get_metadata(datapath='us.gov.whitehouse.salaries.2011')
+        mock_method.assert_called_with(
+            self.new_client, datapath='us.gov.whitehouse.salaries.2011', resource='meta')
+
+    def test_map_metadata_data_type_python_data_type(self):
+        '''Does _map_metadata_data_type() return a dictionary key corresponding
+        to the Python data type of a column?
         '''
         metadata = self.new_client.get_metadata(
             datapath='us.gov.whitehouse.visitor-list')
@@ -129,8 +141,24 @@ class TestClient(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.new_client.get_stats()
 
+    @mock.patch.object(client.EnigmaAPI, '_request', autospec=True)
+    def test_get_stats(self, mock_method):
+        '''Does get_stats() call _request with resource='stats'?
+        '''
+        self.new_client.get_stats(datapath='us.gov.whitehouse.salaries.2011')
+        mock_method.assert_called_with(
+            self.new_client, datapath='us.gov.whitehouse.salaries.2011', resource='stats')
+
     def test_get_export_no_datapath_failure(self):
         '''Does get_export() raise a TypeError when no datapath is passed?
         '''
         with self.assertRaises(TypeError):
             self.new_client.get_export()
+
+    @mock.patch.object(client.EnigmaAPI, '_request', autospec=True)
+    def test_get_export(self, mock_method):
+        '''Does get_export() call _request with resource='export'?
+        '''
+        self.new_client.get_export(datapath='us.gov.whitehouse.salaries.2011')
+        mock_method.assert_called_with(
+            self.new_client, datapath='us.gov.whitehouse.salaries.2011', resource='export')
