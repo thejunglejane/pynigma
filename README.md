@@ -65,7 +65,7 @@ api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
 
 Query parameters are accepted by each endpoint method as `**kwargs`.
 ```python
-params = {'search': '@visitee_lastname=FLOTUS'}
+params = {'search': '@visitee_namelast=FLOTUS'}
 flotus_visitors = api.get_data(
     datapath='us.gov.whitehouse.visitor-list', **params)
 ```
