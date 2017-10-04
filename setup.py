@@ -16,7 +16,7 @@ setup(
     author='Jane Stewart Adams',
     author_email='jane@thejunglejane.com',
     license='MIT',
-    url='https://github.com/annjieching/pynigma',
-    download_url='https://github.com/annjieching/pynigma/tarball/{v}'.format(
+    url='https://github.com/thejunglejane/pynigma',
+    download_url='https://github.com/thejunglejane/pynigma/tarball/{v}'.format(
         v=__version__)
 )
