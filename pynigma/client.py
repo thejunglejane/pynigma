@@ -10,7 +10,7 @@ API_VERSION = 'v2'
 # Data type mappings are based on PL/Python PostgreSQL to Python mappings
 # http://www.postgresql.org/docs/9.4/static/plpython-data.html
 _data_type_codec = {
-    'bigint': long,
+    'bigint': int,
     'boolean': bool,
     'bytea': str,
     'character varying': str,
@@ -20,7 +20,7 @@ _data_type_codec = {
     'int': int,
     'integer': int,
     'numeric': decimal.Decimal,
-    'oid': long,
+    'oid': int,
     'real': float,
     'smallint': int,
     'text': str,
@@ -31,8 +31,8 @@ _data_type_codec = {
 
 
 def _map_metadata_data_type(metadata_columns):
-    '''Return the column data from the MetaData endpoint with corresponding 
-    Python data types included. Even though this is used in only one place, it 
+    '''Return the column data from the MetaData endpoint with corresponding
+    Python data types included. Even though this is used in only one place, it
     has been separated out to facilitate testing.
     '''
     for column in metadata_columns:
@@ -51,7 +51,7 @@ class EnigmaAPI(object):
     ---------
     client_key      : a string corresponding to a valid API key
 
-    EXAMPLE 
+    EXAMPLE
     -------
     >>> from pynigma import client
     >>> import os
