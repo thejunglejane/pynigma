@@ -1,8 +1,9 @@
 # pynigma
 
-`pynigma` is a Python client for the [Enigma API](https://app.enigma.io/api).
+`pynigma` is a Python client for the [Enigma API](https://app.enigma.io/api). Please see the API documentation [here](http://pynigma.readthedocs.io/en/latest/).
 
 [![Code Climate](https://codeclimate.com/github/thejunglejane/pynigma/badges/gpa.svg)](https://codeclimate.com/github/thejunglejane/pynigma)
+[![Documentation Status](https://readthedocs.org/projects/pynigma/badge/?version=latest)](http://pynigma.readthedocs.io/en/latest/?badge=latest)
 
 # Installation
 
