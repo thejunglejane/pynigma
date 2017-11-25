@@ -1,177 +1,57 @@
 # pynigma
 
-pynigma is a simple Python client for the [Enigma API](https://app.enigma.io/api).
+`pynigma` is a Python client for the [Enigma API](https://app.enigma.io/api).
 
 [![Code Climate](https://codeclimate.com/github/thejunglejane/pynigma/badges/gpa.svg)](https://codeclimate.com/github/thejunglejane/pynigma)
 
-+ [Installation](#installation)
-+ [Setup](#setup)
-    + [Tests](#tests)
-+ [Usage](#usage)
-    + [Parameters](#parameters)
-+ [Endponts](#endpoints)
-    + [Data](#data-endpoint)
-    + [Metadata](#metadata-endpoint)
-    + [Stats](#stats-endpoint)
-    + [Export](#export-endpoint)
-    + [Limits](#limits-endpoint)
-
 # Installation
 
-pynigma can be installed using pip
+`pynigma` can be installed using pip
+
 ```bash
-$ pip install pynigma
+pip install pynigma
 ```
 
-Or, you can clone this repository and run the setup script
-```bash
-$ git clone git@github.com:thejunglejane/pynigma.git
-$ cd pynigma
-$ python setup.py install
-```
-
-# Setup
+## Setup
 
 There is no setup required, but I recommend creating a .env that creates an environment variable with your Enigma API key. An example .env is included in this repository. You can copy the .env-example to a .env and fill in your API key, or `echo` the export statement to a .env file from the command line.
+
 ```bash
-$ cp .env-example .env
-$ # or
-$ echo `export ENIGMA_API_KEY='<YOUR API KEY HERE>'` >> .env
+cp .env-example .env
+# or
+echo `export ENIGMA_API_KEY='<YOUR API KEY HERE>'` >> .env
 ```
 
-You will need to source the .env file for the `ENIGMA_API_KEY` environment variable to be available in a Terminal session.
+You will need to source the .env file to make `$ENIGMA_API_KEY` available in your environment.
 
-### Tests
+# Documentation
 
-pynigma uses `unittest`. To run the tests
+Documentation can be built with
+
 ```bash
-$ python -m unittest discover tests/
+python setup.py build_sphinx
+cd build/html/sphinx; python -m http.server 6969
 ```
 
-# Usage
 
-```python
-import os
-from pynigma import client
+# Tests
 
-# Load the ENIGMA_API_KEY environment variable
-ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
+`pynigma` is tested with `unittest`. To run the tests
 
-# Create a new instance of the EnigmaAPI class
-api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
+```bash
+python -m unittest discover tests/
 ```
 
-### Parameters
+To run tests with coverage
 
-Query parameters are accepted by each endpoint method as `**kwargs`.
-```python
-params = {'search': '@visitee_namelast=FLOTUS'}
-flotus_visitors = api.get_data(
-    datapath='us.gov.whitehouse.visitor-list', **params)
-```
-Check the official [API documentation](https://app.enigma.io/api) for valid parameters and parameter formats for each endpoint. If an invalid parameter for an endpoint is passed, pynigma will throw a nice `ValueError`.
-
-
-## Endpoints
-
-Each API endpoint is accessed in pretty much the same way. All you need to provide are a datapath (if applicable) and any query parameters.
-
-### Data Endpoint
-
-The [data endpoint](https://app.enigma.io/api#data) provides the actual data associated with table datapaths. The data endpoint is accessed via the `get_data()` method.
-
-```python
-import os
-from pynigma import client
-
-# Load the ENIGMA_API_KEY environment variable
-ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
-
-api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
-
-# Get the data on White House salaries in 2011
-data = api.get_data(datapath='us.gov.whitehouse.salaries.2011')
-
-data['result'][0]  # the first salary in the dataset
-```
-### Metadata Endpoint
-
-The [metadata endpoint](https://app.enigma.io/api#metadata) provides the metadata associated with table datapaths. The metadata endpoint is accessed via the `get_metadata()` method.
-
-```python
-import os
-from pynigma import client
-
-# Load the ENIGMA_API_KEY environment variable
-ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
-
-api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
-
-# Get the metadata associated with the White House visitors dataset
-metadata = api.get_metadata(datapath='us.gov.whitehouse.visitor-list')
-
-# Print the column names in this dataset
-for column in metadata['result']['columns']:
-    print column['label']
+```bash
+coverage run setup.py test
+coverage report
 ```
 
-The column metadata returned by pynigma will include an additional key not returned by the endpoint, 'python_type', representing the Python data type that corresponds to the type string returned. Mappings are based on the [PL/Python PostgreSQL to Python mappings](http://www.postgresql.org/docs/9.4/static/plpython-data.html). If pynigma cannot determine the Python data type using these mappings, it will default to `str`, which is consistent with PL/Python.
+To see an HTML coverage report
 
-### Stats Endpoint
-
-The [stats endpoint](https://app.enigma.io/api#stats) provides statistics on columns within table datapaths. The stats endpoint is accessed via the `get_stats()` method.
-
-```python
-import os
-from pynigma import client
-
-# Load the ENIGMA_API_KEY environment variable
-ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
-
-api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
-
-# Get statistics for the type_of_access column in the White House visitors
-# dataset
-stats = api.get_stats(
-    datapath='us.gov.whitehouse.visitor-list', **{'select': 'type_of_access'})
-
-# Print the number of visitors for each type of access
-for type in stats['result']['frequency']:
-    print type['type_of_access'], type['count']
-```
-### Export Endpoint
-
-The [export endpoint](https://app.enigma.io/export) provides URLs to gzipped CSV files of table datapaths. The export endpoint is accessed via the `get_export()` method.
-
-```python
-import os
-from pynigma import client
-
-# Load the ENIGMA_API_KEY environment variable
-ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
-
-api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
-
-# Get URL for a gzipped CSV of the White House visitors dataset
-export = api.get_export(datapath='us.gov.whitehouse.visitor-list')
-
-print export['head_url']  # print the URL
-```
-
-### Limits Endpoint
-
-The [limits endpoint](https://app.enigma.io/limits) provides current limits for the API key provided.
-
-```python
-import os
-from pynigma import client
-
-# Load the ENIGMA_API_KEY environment variable
-ENIGMA_API_KEY = os.environ['ENIGMA_API_KEY']
-
-api = client.EnigmaAPI(client_key=ENIGMA_API_KEY)
-
-# Get limits for ENIGMA_API_KEY
-limits = api.get_limits()
-print limits['data']  # remaining data API calls this month
+```bash
+coverage html
+cd build/html/coverage; python -m http.server 6969
 ```
