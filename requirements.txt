@@ -1,6 +1,6 @@
 alabaster==0.7.10
 Babel==2.5.1
-certifi==2017.11.5
+certifi==2022.12.7
 chardet==3.0.4
 coverage==4.4.2
 docutils==0.14
